@@ -1,0 +1,89 @@
+
+:root {
+    --main-bg: #86b8c8;
+    --header-bg: #2c3e50;
+    --accent: #3498db;
+    --bot-color: #1a6784;
+    --user-color: #2ecc71;
+    --text-dark: #333;
+}
+
+/* basislayout */
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    background: var(--main-bg);
+}
+
+header {
+    background: var(--header-bg);
+    color: #345dd3;
+    padding: 0.6rem;
+    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* chatområde */
+#botui-app {
+    padding: 1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* inputområde*/
+#chat-container {
+    width: 300px;
+    min-height: 300px;
+    background: #7592d4;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* botstyling - chatbobler */
+.message {
+    max-width: 70%;
+    padding: 0.8rem 1.2rem;
+    border-radius: 20px;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.user {
+    background-color: var(--user-color);
+    color: white;
+    align-self: flex-end;
+}
+
+.bot {
+    background-color: var(--bot-color);
+    color: var(--text-dark);
+    align-self: flex-start;
+}
+
+/* for at vise billedet i chatten */
+#preview {
+    max-width: 250px;
+    border-radius: 15px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-image {
+    max-width: 70%;
+    border-radius: 15px;
+    margin: 0.5rem 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: block;
+}
