@@ -2,32 +2,34 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Bilbotten 🚗🚙🛻</title>
+    <title>Bilbotten</title>
 
-    <!-- BotUI CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-    <h1>Bilbotten 🚗🚙🛻</h1>
-</header>
-<input type="file" id="image-upload" accept="image/*" style="display: none;">
-<img id="preview" style="max-width: 200px; display: none; margin: 1rem;">
+<main class="chat-container">
+    <header class="chat-header">
+        <h1>Bilbotten</h1>
+        <p>Din AI-ven til bilopslag</p>
+    </header>
 
-<div id="botui-app">
-    <bot-ui></bot-ui>
-</div>
+    <img id="preview" style="max-width: 200px; display: none; margin: 1rem;" />
+    <img src="img/car.svg" alt="Bil" class="car-animation">
+
+    <div id="botui-app">
+        <bot-ui></bot-ui>
+    </div>
+
+    <input type="file" id="image-upload" accept="image/*" style="display: none;">
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.min.js"></script>
 <script src="script.js"></script>
-
 </body>
-
 </html>
-

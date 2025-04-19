@@ -1,89 +1,96 @@
-
 :root {
-    --main-bg: #86b8c8;
-    --header-bg: #2c3e50;
-    --accent: #3498db;
-    --bot-color: #1a6784;
-    --user-color: #2ecc71;
+    --bg: #fdfdfd;
+    --header-bg: #1a73e8;
+    --bot-bubble: #e8f0fe;
+    --user-bubble: #d1e7dd;
     --text-dark: #333;
+    --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* basislayout */
 body {
-    font-family: 'Nunito', sans-serif;
     margin: 0;
-    background: var(--main-bg);
+    background-color: var(--bg);
+    font-family: 'Inter', sans-serif;
 }
 
-header {
-    background: var(--header-bg);
-    color: #345dd3;
-    padding: 0.6rem;
-    text-align: center;
-    font-size: 2.3rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* chatområde */
-#botui-app {
-    padding: 1rem;
+.chat-container {
     max-width: 700px;
     margin: 0 auto;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-/* inputområde*/
-#chat-container {
-    width: 300px;
-    min-height: 300px;
-    background: #7592d4;
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
-/* botstyling - chatbobler */
-.message {
-    max-width: 70%;
-    padding: 0.8rem 1.2rem;
-    border-radius: 20px;
-    margin: 0.5rem 0;
-    line-height: 1.4;
-    animation: fadeIn 0.3s ease-in;
-}
-
-.user {
-    background-color: var(--user-color);
+.chat-header {
+    text-align: center;
+    background: var(--header-bg);
     color: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.chat-header p {
+    margin: 0.3rem 0 0;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+#botui-app {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px var(--shadow);
+    min-height: 200px;
+}
+
+.botui-message-content {
+    border-radius: 16px;
+    padding: 0.9rem 1.3rem;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.botui-message-content.human {
+    background: var(--user-bubble);
     align-self: flex-end;
 }
 
-.bot {
-    background-color: var(--bot-color);
-    color: var(--text-dark);
+.botui-message-content.bot {
+    background: var(--bot-bubble);
     align-self: flex-start;
-}
-
-/* for at vise billedet i chatten */
-#preview {
-    max-width: 250px;
-    border-radius: 15px;
-    margin-top: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    display: none;
-}
-
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 .chat-image {
     max-width: 70%;
-    border-radius: 15px;
+    border-radius: 12px;
     margin: 0.5rem 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    display: block;
+    box-shadow: 0 2px 6px var(--shadow);
 }
+.car-animation {
+    position: fixed;
+    left: 30px;
+    top: -200px;
+    width: 160px;
+    z-index: 0;
+    pointer-events: none;
+    animation: drive-down 9s linear infinite;
+}
+
+@keyframes drive-down {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(130vh);
+    }
+}
+
+
