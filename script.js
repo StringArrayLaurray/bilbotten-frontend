@@ -28,46 +28,52 @@ document.getElementById('image-upload').addEventListener('change', function (eve
         content: `<img src="${imgUrl}" class="chat-image">`
     });
 
-    const loadingMsgRef = botui.message.add({
-        type: 'html',
-        cssClass: 'loading',
-        content: `
-          <span class="loader-dot"></span>
-          <span class="loader-dot"></span>
-          <span class="loader-dot"></span>
-        `
-    });
-
     fetch('http://localhost:8080/upload', {
         method: 'POST',
         body: formData
     })
         .then(response => response.json())
         .then(carInfo => {
-            botui.message.remove(loadingMsgRef._id);
+            const regNumber = carInfo["registration_number"];
 
+            if (!regNumber || regNumber.toLowerCase() === "null") {
+                return botui.message.add({
+                    content: "Vi kunne ikke finde en nummerplade på billedet 😔 Prøv venligst med et andet billede 📷"
+                }).then(() => {
+                    return botui.action.button({
+                        action: [
+                            { text: "📷 Prøv igen", value: "upload" }
+                        ]
+                    }).then(res => {
+                        if (res.value === "upload") {
+                            document.getElementById('image-upload').click();
+                        }
+                    });
+                });
+            }
+
+
+            // hvis nummerplade blev fundet – vis alle oplysninger
             return botui.message.add({
                 type: 'html',
                 content: `
-                Her er informationen vi fandt:<br><br>
-                Nummerplade: ${carInfo["registration_number"]}<br>
-                Mærke: ${carInfo["make"]}<br>
-                Model: ${carInfo["model"]}<br>
-                Variant: ${carInfo["variant"]}<br>
-                Årgang: ${carInfo["model_year"]}<br>
-                Farve: ${carInfo["color"]}<br>
-                Døre: ${carInfo["doors"]} | Sæder: ${carInfo["seats"]}<br>
-                Brændstof: ${carInfo["fuel_type"]}<br>
-                Motorkraft: ${carInfo["engine_power"]} hk<br>
-                Vægt: ${carInfo["total_weight"]} kg
-            `
+                    Her er informationen vi fandt:<br><br>
+                    Nummerplade: ${regNumber}<br>
+                    Mærke: ${carInfo["make"]}<br>
+                    Model: ${carInfo["model"]}<br>
+                    Variant: ${carInfo["variant"]}<br>
+                    Årgang: ${carInfo["model_year"]}<br>
+                    Farve: ${carInfo["color"]}<br>
+                    Døre: ${carInfo["doors"]} | Sæder: ${carInfo["seats"]}<br>
+                    Brændstof: ${carInfo["fuel_type"]}<br>
+                    Motorkraft: ${carInfo["engine_power"]} hk<br>
+                    Vægt: ${carInfo["total_weight"]} kg
+                `
             }).then(() => {
                 const brand = carInfo["make"];
                 const model = carInfo["model"];
 
-                // slår bilen op i bilbasen vha. make og model
-                const bilbasenUrl = `https://www.bilbasen.dk/brugt/bil?includeengros=false&make=${encodeURIComponent(brand)}&model=${encodeURIComponent(model)}`;
-                // vi kan tilføje flere hjemmesider ofc
+                const bilbasenUrl = `https://www.bilbasen.dk/brugt/bil/${brand.toLowerCase()}/${model.toLowerCase()}`;
                 const brandSites = {
                     skoda: "https://www.skoda.dk",
                     audi: "https://www.audi.dk",
@@ -76,7 +82,6 @@ document.getElementById('image-upload').addEventListener('change', function (eve
                     bmw: "https://www.bmw.dk",
                     mercedes: "https://www.mercedes-benz.dk"
                 };
-
                 const brandUrl = brandSites[brand.toLowerCase()] || `https://${brand.toLowerCase()}.com`;
 
                 return botui.action.button({
@@ -92,15 +97,13 @@ document.getElementById('image-upload').addEventListener('change', function (eve
                         window.open(brandUrl, "_blank");
                     } else if (res.value === "upload") {
                         document.getElementById('image-upload').click();
-                        return; // stop efter upload
+                        return;
                     }
 
-                    // tilbyder upload bagefter igen så chatten kan blive ved
+                    // tilbyder upload bagefter igen
                     return botui.action.button({
                         delay: 1000,
-                        action: [
-                            { text: "📷 Upload ny bil", value: "upload" }
-                        ]
+                        action: [{ text: "📷 Upload ny bil", value: "upload" }]
                     }).then((res) => {
                         if (res.value === "upload") {
                             document.getElementById('image-upload').click();
@@ -110,8 +113,7 @@ document.getElementById('image-upload').addEventListener('change', function (eve
             });
         })
         .catch(error => {
-            botui.message.remove(loadingMsgRef._id);
-            botui.message.add({ content: 'Hov, noget gik galt' });
+            botui.message.add({ content: 'Hov, noget gik galt 😓' });
             console.error(error);
         });
 });
